@@ -1,0 +1,126 @@
+﻿
+<head>
+    <style>
+        /* (Insert the CSS code here) */
+        /* Reset some default browser styling */
+        /* Reset some default browser styling */
+        /* (Insert the CSS code here) */
+        /* Reset some default browser styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: url("https://png.pngtree.com/thumb_back/fh260/background/20250320/pngtree-a-dramatic-and-surreal-scene-of-an-ancient-crumbling-clock-image_17127269.jpg") no-repeat center center fixed; /* added no-repeat and fixed */
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #fff; /* Changed to white */
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Header styling */
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Label and span styling */
+        label {
+            font-weight: bold;
+            color: #fff; /* Added color white */
+        }
+
+        /* Select box styling */
+        select {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #fff; /* Set text color to white */
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: Set a dark background for better contrast */
+        }
+
+        /* Time display styling */
+        #localTime,
+        #foreignTime {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            font-size: 1.2em;
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #fff; /* Set text color to white */
+        }
+
+        /* Centering the elements */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for better visibility */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+@model WebApplicationTimeZone.Models.ModelTime;
+@{
+    ViewData["Title"] = "Time Viewer";
+}
+<div class="container">
+    <h2>Time Viewer</h2>
+    <!-- Rest of your HTML content -->
+
+<label>Local Time: </label>
+<span id="localTime">@Model.LocalTime</span>
+<br />
+
+<label for="countrySelect">Select Country:</label>
+<select id="countrySelect">
+    @foreach (var country in Model.AvailableCountries)
+    {
+        <option value="@country" @(country == Model.SelectedCountry ? "selected" : "")>@country</option>
+    }
+</select>
+
+<br />
+<label>Foreign Time :</label>
+<span id="foreignTime">@Model.ForeignTime</span>
+
+</div>
+
+    <script>
+        // Update Local Time every second
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById("localTime").innerText =
+                now.toLocaleTimeString();
+        }, 1000);
+
+        // Poll server every 10s for foreign time
+        function updateForeignTime() {
+            const country = document.getElementById("countrySelect").value;
+            fetch(`/api/time/${country}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("foreignTime").innerText = data.time;
+                });
+        }
+
+        document.getElementById("countrySelect").addEventListener("change", () => {
+            updateForeignTime(); // Update immediately on selection change
+        });
+
+        setInterval(updateForeignTime, 1000); // Poll every 1 seconds
+    </script>
+

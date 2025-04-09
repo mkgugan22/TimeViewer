@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "jwgsOJfyNcu7LqTdEVeE3lXEAhQIj2FNhLxS7aPqeUU=",
+  "Source": "WebApplicationTimeZone",
+  "BasePath": "_content/WebApplicationTimeZone",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

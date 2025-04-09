@@ -1,0 +1,6 @@
+@WebApplicationTimeZone_HostAddress = http://localhost:5276
+
+GET {{WebApplicationTimeZone_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
